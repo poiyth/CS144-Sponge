@@ -93,10 +93,10 @@
         "variant": "cpp"
     },
     // 禁用 C/C++ IntelliSense
-    "C_Cpp.errorSquiggles": "disabled",
-    "C_Cpp.intelliSenseEngineFallback": "disabled",
+    "C_Cpp.errorSquiggles": "enabled",
+    "C_Cpp.intelliSenseEngineFallback": "default",
     "C_Cpp.intelliSenseEngine": "default",
-    "C_Cpp.autocomplete": "disabled",
+    "C_Cpp.autocomplete": "default",
 
     "clangd.path": "/usr/bin/clangd",
     // clangd 运行参数(在终端/命令行输入 clangd --help-list-hidden 可查看更多)
