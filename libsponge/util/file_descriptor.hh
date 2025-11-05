@@ -12,25 +12,25 @@
 class FileDescriptor {
     //! \brief A handle on a kernel file descriptor.
     //! \details FileDescriptor objects contain a std::shared_ptr to a FDWrapper.
-    class FDWrapper {
+    class FDWrapper {               //文件描述符的句柄
       public:
-        int _fd;                    //!< The file descriptor number returned by the kernel
-        bool _eof = false;          //!< Flag indicating whether FDWrapper::_fd is at EOF
-        bool _closed = false;       //!< Flag indicating whether FDWrapper::_fd has been closed
-        unsigned _read_count = 0;   //!< The number of times FDWrapper::_fd has been read
-        unsigned _write_count = 0;  //!< The numberof times FDWrapper::_fd has been written
+        int _fd;                    //!< The file descriptor number returned by the kernel 操作系统返回的原始文件描述符
+        bool _eof = false;          //!< Flag indicating whether FDWrapper::_fd is at EOF 标记是否读到eof了
+        bool _closed = false;       //!< Flag indicating whether FDWrapper::_fd has been closed 是否关闭
+        unsigned _read_count = 0;   //!< The number of times FDWrapper::_fd has been read      读取次数
+        unsigned _write_count = 0;  //!< The numberof times FDWrapper::_fd has been written    写入次数
 
-        //! Construct from a file descriptor number returned by the kernel
+        //! Construct from a file descriptor number returned by the kernel 构造函数
         explicit FDWrapper(const int fd);
-        //! Closes the file descriptor upon destruction
+        //! Closes the file descriptor upon destruction 析构函数
         ~FDWrapper();
-        //! Calls [close(2)](\ref man2::close) on FDWrapper::_fd
+        //! Calls [close(2)](\ref man2::close) on FDWrapper::_fd 显示关闭文件描述符
         void close();
 
         //! \name
         //! An FDWrapper cannot be copied or moved
 
-        //!@{
+        //!@{ 不可移动和拷贝
         FDWrapper(const FDWrapper &other) = delete;
         FDWrapper &operator=(const FDWrapper &other) = delete;
         FDWrapper(FDWrapper &&other) = delete;
@@ -38,7 +38,7 @@ class FileDescriptor {
         //!@}
     };
 
-    //! A reference-counted handle to a shared FDWrapper
+    //! A reference-counted handle to a shared FDWrapper，通过智能指针管理
     std::shared_ptr<FDWrapper> _internal_fd;
 
     // private constructor used to duplicate the FileDescriptor (increase the reference count)

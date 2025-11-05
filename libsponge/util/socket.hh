@@ -9,6 +9,7 @@
 #include <string>
 #include <sys/socket.h>
 
+//网络套接字
 //! \brief Base class for network sockets (TCP, UDP, etc.)
 //! \details Socket is generally used via a subclass. See TCPSocket and UDPSocket for usage examples.
 class Socket : public FileDescriptor {
