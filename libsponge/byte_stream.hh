@@ -2,6 +2,7 @@
 #define SPONGE_LIBSPONGE_BYTE_STREAM_HH
 
 #include <string>
+#include <vector>
 
 //! \brief An in-order byte stream.
 
@@ -11,12 +12,25 @@
 class ByteStream {
   private:
     // Your code here -- add private members as necessary.
-
+    //缓冲区，用vector确定
+    std::vector<char> _buffer{};
+    //容器容量，用常量固定
+    const size_t _capacity;
+    //读指针
+    size_t _buffer_read{};
+    //写指针，初始时两者相等都为0，write指向第一个空的位置，read指向第一个读的位置，两者相等时容器为空
+    size_t _buffer_write{};
+    //剩余空的容量，这里在构造函数处初始化。
+    size_t _buffer_remain; 
+    //写入方是否结束。
+    bool _end{};
+    //总共写和读的数量。
+    size_t _tot_read{};
+    size_t _tot_write{};
     // Hint: This doesn't need to be a sophisticated data structure at
     // all, but if any of your tests are taking longer than a second,
     // that's a sign that you probably want to keep exploring
     // different approaches.
-
     bool _error{};  //!< Flag indicating that the stream suffered an error.
 
   public:
