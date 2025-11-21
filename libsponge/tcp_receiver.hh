@@ -20,6 +20,10 @@ class TCPReceiver {
     //! The maximum number of bytes we'll store.
     size_t _capacity;
 
+    std::optional<WrappingInt32> _isn{}; //记录isn
+
+    uint64_t _last_abseqno{};//记录上一次绝对序列号
+
   public:
     //! \brief Construct a TCP receiver
     //!

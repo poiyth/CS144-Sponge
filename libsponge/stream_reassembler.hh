@@ -17,7 +17,7 @@ class StreamReassembler {
     uint64_t _last_index{};
     ByteStream _output;  //!< The reassembled in-order byte stream
     size_t _capacity;    //!< The maximum number of bytes
-    bool _eof{};           //是否已经结束了
+    bool _eof{};           //是否已经收到结束信号了
 
   public:
     //! \brief Construct a `StreamReassembler` that will store up to `capacity` bytes.
@@ -50,6 +50,15 @@ class StreamReassembler {
     //! \brief Is the internal state empty (other than the output stream)?
     //! \returns `true` if no substrings are waiting to be assembled
     bool empty() const;
+
+    //返回当前排序器所需的字节号
+    uint64_t get_index() const {return _index;}
+
+    //返回当前未排序的窗口大小
+    size_t get_window() const {return _output.remaining_capacity();}
+
+    //返回当前排序器是否已经收到结束信号并且已经排序结束。
+    bool end() const {return _eof & empty();}
 };
 
 #endif  // SPONGE_LIBSPONGE_STREAM_REASSEMBLER_HH
