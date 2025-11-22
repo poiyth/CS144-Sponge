@@ -32,7 +32,7 @@ WrappingInt32 wrap(uint64_t n, WrappingInt32 isn) {
 //给定序列号seqno、isn和绝对序列号的checkpoint，转换成绝对序列号
 //坑点绝对序列号0-最大值之间，不能上溢或下溢
 uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) {
-    //先取出绝对序号的后32位
+    //先取出绝对序号的后32位。 ！！！注意这里先强转成uint32，再强转成uint64
     uint64_t offset =static_cast<uint64_t>(static_cast<uint32_t>(n - isn));
 
     //构造粗略的候选者
@@ -40,7 +40,7 @@ uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) {
     uint64_t wrap_const = 1ul << 32;
     //还有一个候选者是candidate + 0xFFFFFFFF
     if(candidate < checkpoint) {
-        //这里考虑candidate到checkpoint距离超过一半，则一定是另一个
+        //这里考虑candidate到checkpoint距离超过一半，则一定是另一个，注意这里是否越界
         if(checkpoint - candidate > wrap_const / 2 && candidate + wrap_const > candidate) 
             return candidate + wrap_const;
     }

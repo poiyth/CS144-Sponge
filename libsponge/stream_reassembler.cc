@@ -20,7 +20,7 @@ StreamReassembler::StreamReassembler(const size_t capacity) : _output(capacity),
 void StreamReassembler::push_substring(const string &data, const size_t index, const bool eof) {
 
     //已经收到结束的字节信号并且字节序已经写到结束信号了，就不允许继续插入了。
-    if(_eof && _index == _last_index) return;
+    if(end()) return;
     if(eof)
     {
         _eof = eof;
