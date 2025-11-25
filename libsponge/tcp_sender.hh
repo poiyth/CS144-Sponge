@@ -17,20 +17,46 @@
 //! segments if the retransmission timer expires.
 class TCPSender {
   private:
+    //发送方自己的isn
     //! our initial sequence number, the number for our SYN.
     WrappingInt32 _isn;
 
+    //输出队列
     //! outbound queue of segments that the TCPSender wants sent
     std::queue<TCPSegment> _segments_out{};
 
+    //未确认队列，这里用双向队列是为了可以便利，方便计算总字节数
+    std::deque<TCPSegment> _outstanding_segments{};
+
+    //初始RTO
     //! retransmission timer for the connection
     unsigned int _initial_retransmission_timeout;
 
+    //还没有被发送的字节流
     //! outgoing stream of bytes that have not yet been sent
     ByteStream _stream;
 
+    //标记是否已经发送过fin标记了，防止一直发送
+    bool _fin_sent{false};
+
+    //下一个要被发送的绝对序列号
     //! the (absolute) sequence number for the next byte to be sent
     uint64_t _next_seqno{0};
+
+    uint16_t _window_size{1};
+
+    //以下变量主要和计时器相关
+    //目前rto的值
+    size_t _rto;
+
+    //目前计时器已经积累的时间
+    size_t _time_elapsed{};
+
+    //计时器是否打开
+    bool _timer_running{};
+
+    //连续重传次数
+    size_t _retransmission_count{};
 
   public:
     //! Initialize a TCPSender
@@ -89,4 +115,4 @@ class TCPSender {
     //!@}
 };
 
-#endif  // SPONGE_LIBSPONGE_TCP_SENDER_HH
+#endif  // SPONGE_LIBSPONGE_TCP_SENDER_
