@@ -22,8 +22,6 @@ class TCPReceiver {
 
     std::optional<WrappingInt32> _isn{}; //记录isn
 
-    uint64_t _last_abseqno{};//记录上一次绝对序列号
-
   public:
     //! \brief Construct a TCP receiver
     //!
@@ -65,6 +63,9 @@ class TCPReceiver {
     ByteStream &stream_out() { return _reassembler.stream_out(); }
     const ByteStream &stream_out() const { return _reassembler.stream_out(); }
     //!@}
+
+    //这里添加一个函数判断当前是否已经激活receiver了
+    bool  active() const {return _isn.has_value() ? true : false;}
 };
 
 #endif  // SPONGE_LIBSPONGE_TCP_RECEIVER_HH

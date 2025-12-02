@@ -113,6 +113,12 @@ class TCPSender {
     //! \brief relative seqno for the next byte to be sent
     WrappingInt32 next_seqno() const { return wrap(_next_seqno, _isn); }
     //!@}
+
+    //添加一个新的函数，表示当前是否发送过fin报文
+    bool fin_sent() const {return _fin_sent;}
+
+    //增添一个新的函数，将输出队列清空，为RST报文腾位置
+    void clear_sender();
 };
 
 #endif  // SPONGE_LIBSPONGE_TCP_SENDER_

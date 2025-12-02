@@ -29,7 +29,8 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
 
     //首先尽可能的将字节存入map中，首先计算能接受的窗口区间
     size_t window_l = _index;
-    size_t window_r = max(_index + _capacity - _output.buffer_size(), _last_index); //这里收到结束信号以后，就不再接收last_index以外的字节了
+    size_t window_r = _index + _capacity - _output.buffer_size(); //
+    if(eof) window_r = min(window_r, _last_index);                //这里收到结束信号以后，就不再接收last_index以外的字节了
 
     for(size_t i = 0; i < data.length(); i++) {
         if(index + i < window_l) continue;

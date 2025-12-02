@@ -144,3 +144,10 @@ void TCPSender::send_empty_segment() {
     _segments_out.push(seg);
     return;
 }
+
+//清空输出队列。
+void TCPSender::clear_sender() {
+    while(!_segments_out.empty()) {
+        _segments_out.pop();
+    }
+}

@@ -40,7 +40,7 @@ void TCPReceiver::segment_received(const TCPSegment &seg) {
     WrappingInt32 seqno(header.seqno.raw_value());
     if(header.syn) seqno = seqno + static_cast<uint32_t>(1);
     //推送数据
-    _reassembler.push_substring(payload, _last_abseqno = unwrap(seqno, _isn.value(), _last_abseqno) - 1, end);
+    _reassembler.push_substring(payload, unwrap(seqno, _isn.value(), _reassembler.get_index()) - 1, end);
 
 }
 
